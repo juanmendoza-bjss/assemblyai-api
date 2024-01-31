@@ -27,14 +27,13 @@ public class SDKapp {
             throw new RuntimeException(e);
         }
 
+        // Polling for the status for 10 seconds
         long finish = System.currentTimeMillis() + 10000; // end time
         while (System.currentTimeMillis() < finish) {
             TranscriptStatus status = client.transcripts().get(transcript.getId()).getStatus();
             System.out.println(status);
             Thread.sleep(1000); // Sleep for a second before checking again
         }
-
-//       System.out.println(client.transcripts().get(transcript.getId()).getStatus());
 
 //        System.out.println("Transcription: " + transcript.getText().get()); // Class is Optional. get() returns value
 
