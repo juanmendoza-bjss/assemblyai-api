@@ -18,28 +18,30 @@ public class SDKapp {
         // AssemblyAI SDK HTTP client
         AssemblyAI client = AssemblyAI.builder().apiKey(apiKey).build();
 
-        // Generating the transcript using a file as a source (working code)
-        Transcript transcript = null;
-        try {
-            transcript = client.transcripts().transcribe(file);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        // Generating the transcript using a file as a source (working code)
+//        Transcript transcript = null;
+//        try {
+//            transcript = client.transcripts().transcribe(file);
+//        }
+//        catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        System.out.println(client.transcripts().get(transcript.getId()));
 
         // Polling for the status for 10 seconds
-        long finish = System.currentTimeMillis() + 10000; // end time
-        while (System.currentTimeMillis() < finish) {
-            TranscriptStatus status = client.transcripts().get(transcript.getId()).getStatus();
-            System.out.println(status);
-            Thread.sleep(1000); // Sleep for a second before checking again
-        }
+//        long finish = System.currentTimeMillis() + 10000; // end time
+//        while (System.currentTimeMillis() < finish) {
+//            TranscriptStatus status = client.transcripts().get(transcript.getId()).getStatus();
+//            System.out.println(status);
+//            Thread.sleep(1000); // Sleep for a second before checking again
+//        }
 
-//        System.out.println("Transcription: " + transcript.getText().get()); // Class is Optional. get() returns value
+        // Generating a transcript using a URL as a source
+        Transcript transcript = client.transcripts().transcribe(url);
 
-//        // Generating a transcript using a URL as a source
-//        Transcript transcript = client.transcripts().transcribe(url);
-//
+        System.out.println(transcript.getStatus());
+
 //        // Polling for the status until it's not in progress
 //        while (transcript.getStatus().equals(TranscriptStatus.COMPLETED)) {
 //            System.out.println("inside while loop");
@@ -51,11 +53,11 @@ public class SDKapp {
 //            }
 //            transcript = client.transcripts().get(transcript.getId()); // Retrieve updated transcript
 //        }
-//
-//        if (transcript.getStatus().equals(TranscriptStatus.ERROR)) {
-//            System.err.println(transcript.getError());
-//        }
-//
-//        System.out.println("Transcription: " + transcript.getText().get()); // Class is Optional. get() returns value
+
+        if (transcript.getStatus().equals(TranscriptStatus.ERROR)) {
+            System.err.println(transcript.getError());
+        }
+
+        System.out.println("Transcription: " + transcript.getText().get()); // Class is Optional. get() returns value
     }
 }
